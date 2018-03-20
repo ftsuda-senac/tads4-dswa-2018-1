@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <h1>Entrada de dados</h1>
+    <form action="entrada.html" th:action="@{/contato/salvar}" 
+          th:object="${contato}" method="post">
+      <div>
+        <label>Nome</label>
+        <input type="text" name="nome" th:field="*{nome}" />
+      </div>
+      <div>
+        <label>E-mail</label>
+        <input type="email" name="email" th:field="*{email}" />
+      </div>
+      <div>
+        <label>Idade</label>
+        <input type="number" name="idade" th:field="*{idade}" />
+      </div>
+      <div>
+        <fieldset>
+          <legend>Sexo</legend>
+          <input type="radio" name="sexo" id="radsexof" value="0" th:field="*{sexo}" checked />
+          <label for="radsexof">Feminino</label>
+          <input type="radio" name="sexo" id="radsexom" value="1" th:field="*{sexo}" />
+          <label for="radsexom">Masculino</label>
+        </fieldset>
+      </div>
+      <div>
+        <button type="submit">Enviar</button>
+      </div>
+    </form>
+  </body>
+</html>
