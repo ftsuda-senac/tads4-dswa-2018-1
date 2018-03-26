@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -45,8 +46,16 @@ public class ContatoController {
   
   @PostMapping("/salvar")
   public ModelAndView salvar(
-	  @ModelAttribute("contato") Contato contato) {
-    return new ModelAndView("contato/resultado")
-	    .addObject("contato", contato);
+	  @ModelAttribute("contato") Contato contato, 
+	  RedirectAttributes redirectAtrib) {
+    
+    // USANDO POST-REDIRECT-GET
+    redirectAtrib.addFlashAttribute("contato", contato);
+    return new ModelAndView("redirect:/contato/resultado");
+  }
+  
+  @GetMapping("/resultado")
+  public ModelAndView mostrarResultado() {
+    return new ModelAndView("/contato/resultado");
   }
 }
