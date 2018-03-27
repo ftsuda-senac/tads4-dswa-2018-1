@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div th:if="${!@sessaoController.numerosDigitados.isEmpty()}" 
+         th:each="num : ${@sessaoController.numerosDigitados}">
+      <span th:text="${num}"></span>
+    </div>
+    <div>
+      <form th:action="@{/sessao}" method="post">
+        <div>
+          <label>Digite o nome</label>
+          <input type="text" name="nome" th:value="${@sessaoController.nomeUsuario}"/>
+        </div>
+        <div>
+          <label>Digite um número inteiro</label>
+          <input type="number" name="numero" />
+        </div>
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </body>
+</html>
