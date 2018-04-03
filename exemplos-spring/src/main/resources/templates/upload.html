@@ -7,10 +7,13 @@
   </head>
   <body>
     <h1>Upload de arquivos</h1>
+    <div th:if="${msg != null}" style="background-color: grey">
+      <h2 th:text="${msg}"></h2>
+    </div>
     <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
       <div>
         <label>Carregar arquivo</label>
-        <input type="file" name="imagem" />
+        <input type="file" name="imagem" accept="image/*" />
       </div>
       <button>Enviar</button>
     </form>
