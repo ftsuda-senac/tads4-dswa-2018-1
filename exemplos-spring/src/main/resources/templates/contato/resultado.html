@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html layout:decorate="~{modelo/modelo}">
   <head>
     <title>TODO supply a title</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    
-    <div th:if="${contato != null}">
+    <div layout:fragment="conteudo">
+    <div th:if="${contato != null}" >
       <h1>Contato cadastrado</h1>
       <h2>Nome: <span th:text="${contato.nome}">Teste</span></h2>
       <p>E-mail: <span th:text="${contato.email}">email@email.com</span></p>
@@ -21,6 +21,7 @@
     <div th:if="${contato == null}">
       <h1>Erro</h1>
       <a th:href="@{/contato/entrada}">Voltar para formulário</a>
+    </div>
     </div>
   </body>
 </html>

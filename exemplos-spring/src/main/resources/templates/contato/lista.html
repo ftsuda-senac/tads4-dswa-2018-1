@@ -1,24 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html layout:decorate="~{modelo/modelo}">
   <head>
     <title>TODO supply a title</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    <h1>Lista de contatos</h1>
-    <ul th:each="c : ${lista}">
-      <li>
-        <h2>Nome: <span th:text="${c.nome}">Teste</span></h2>
-        <p>ID: <span th:text="${c.id}"></span></p>
-        <p>E-mail: <span th:text="${c.email}">email@email.com</span></p>
-        <p>Sexo: <span th:switch="${c.sexo}">
-            <span th:case="1">Masculino</span>
-            <span th:case="*">Feminino</span>
-          </span></p>
-        <p th:if="${c.idade < 18}">*** Menor de 18 anos ***</p>
-      </li>
-
-    </ul>
+    <header>
+      <h1>Agenda de contatos</h1>
+    </header>
+    <div layout:fragment="conteudo"> 
+      <h1>Lista de contatos</h1>
+      <ul th:each="c : ${lista}">
+        <li>
+          <h2>Nome: <span th:text="${c.nome}">Teste</span></h2>
+          <p>ID: <span th:text="${c.id}"></span></p>
+          <p>E-mail: <span th:text="${c.email}">email@email.com</span></p>
+          <p>Sexo: <span th:switch="${c.sexo}">
+              <span th:case="1">Masculino</span>
+              <span th:case="*">Feminino</span>
+            </span></p>
+          <p th:if="${c.idade < 18}">*** Menor de 18 anos ***</p>
+        </li>
+      </ul>
+    </div>
   </body>
+  <footer>
+    <p>&copy; TADS DWS 2018
+  </footer>
 </html>
