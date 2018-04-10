@@ -1,0 +1,11 @@
+<div layout:decorate="~{modelo}" layout:fragment="conteudo">
+  <div>
+    <img src="imagem.jpg" />
+    <h2 th:text="${prod.nome}">Nome do produto</h2>
+    <p th:text="${prod.descricao}">Detalhe detalhe detalhe detalhe</p>
+    <p th:text="${prod.precoVenda}">R$ 100,00</p>
+    <form action="" th:action="@{/carrinho/{id}(id=${prod.id})}" method="post">
+      <button>Comprar</button>
+    </form>
+  </div>
+</div>
