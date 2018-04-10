@@ -8,7 +8,9 @@ package br.senac.tads4.dsw.exemplosspring.controller;
 import br.senac.tads4.dsw.exemplosspring.modelo.Contato;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,8 +48,13 @@ public class ContatoController {
   
   @PostMapping("/salvar")
   public ModelAndView salvar(
-	  @ModelAttribute("contato") Contato contato, 
+	  @ModelAttribute("contato") @Valid Contato contato, 
+	  BindingResult bindingResult,
 	  RedirectAttributes redirectAtrib) {
+    
+    if (bindingResult.hasErrors()) {
+      return new ModelAndView("contato/entrada");
+    }
     
     // USANDO POST-REDIRECT-GET
     redirectAtrib.addFlashAttribute("contato", contato);

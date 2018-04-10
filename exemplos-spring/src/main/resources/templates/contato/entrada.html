@@ -15,18 +15,27 @@
       <h1>Entrada de dados</h1>
       <img th:src="@{/img/madruga.jpg}" />
       <form action="entrada.html" th:action="@{/contato/salvar}" 
-            th:object="${contato}" method="post">
+            th:object="${contato}" method="post" novalidate>
         <div>
           <label>Nome</label>
           <input type="text" name="nome" th:field="*{nome}" />
+          <div th:if="${#fields.hasErrors('nome')}" class="erro">
+            <p th:errors="*{nome}"></p>
+          </div>
         </div>
         <div>
           <label>E-mail</label>
           <input type="email" name="email" th:field="*{email}" />
+          <div th:if="${#fields.hasErrors('email')}" class="erro">
+            <p th:errors="*{email}"></p>
+          </div>
         </div>
         <div>
           <label>Idade</label>
           <input type="number" name="idade" th:field="*{idade}" />
+          <div th:if="${#fields.hasErrors('idade')}" class="erro">
+            <p th:errors="*{idade}"></p>
+          </div>
         </div>
         <div>
           <fieldset>
@@ -35,7 +44,11 @@
             <label for="radsexof">Feminino</label>
             <input type="radio" name="sexo" id="radsexom" value="1" th:field="*{sexo}" />
             <label for="radsexom">Masculino</label>
+            <input type="radio" name="sexo" id="radsexoteste" value="2" th:field="*{sexo}" />
           </fieldset>
+          <div th:if="${#fields.hasErrors('sexo')}" class="erro">
+            <p th:errors="*{sexo}"></p>
+          </div>
         </div>
         <div>
           <button type="submit">Enviar</button>

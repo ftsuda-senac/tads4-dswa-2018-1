@@ -5,6 +5,11 @@
  */
 package br.senac.tads4.dsw.exemplosspring.modelo;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  *
  * @author fernando.tsuda
@@ -13,12 +18,18 @@ public class Contato {
 
   private long id;
   
+  @NotNull
+  @Size(min = 2, max = 50)
   private String nome;
 
+  @NotNull(message = "E-mail não pode ser nulo")
+  @Email(message = "E-mail com formato inválido")
   private String email;
   
+  @Max(value = 130, message = "Idade máxima são 130 anos")
   private int idade;
   
+  //@Pattern(regexp = "[0|1]", message = "Valor inválido")
   private int sexo; // 0-feminino, 1-masculino
   
 
