@@ -10,10 +10,14 @@ import br.senac.tads4.dsw.tadsstore.common.service.ProdutoService;
 import br.senac.tads4.dsw.tadsstore.common.service.fakeimpl.ProdutoServiceFakeImpl;
 import java.util.List;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping
@@ -24,13 +28,28 @@ public class ProdutoController {
   @GetMapping
   public ModelAndView listar() {
     List<Produto> lista = service.listar(0, 100);
-    return new ModelAndView("lista").addObject("resultado", lista);
+    return new ModelAndView("lista-bs4").addObject("resultado", lista);
   }
 
   @GetMapping("/{id}")
   public ModelAndView mostrarDetalhe(@PathVariable("id") Long id) {
     Produto p = service.obter(id);
-    return new ModelAndView("detalhe").addObject("prod", p);
+    return new ModelAndView("detalhe-bs4").addObject("prod", p);
+  }
+ 
+  @GetMapping("/form")
+  public ModelAndView mostrarForm() {
+    Produto p = new Produto();
+    return new ModelAndView("formulario").addObject("prod", p);
+  }
+  
+  @PostMapping("/salvar")
+  public ModelAndView salvar(@ModelAttribute Produto p, 
+	  BindingResult bindingResult,
+	  RedirectAttributes redirectAttributes) {
+    
+    redirectAttributes.addFlashAttribute("msg", "Produto " + p.getNome() + " cadastrado com sucesso");
+    return new ModelAndView("redirect:/form");
   }
 
 }

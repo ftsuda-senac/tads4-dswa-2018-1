@@ -39,7 +39,7 @@ public class CarrinhoController implements Serializable {
 
   @GetMapping
   public ModelAndView mostrarCarrinho() {
-    return new ModelAndView("carrinho");
+    return new ModelAndView("carrinho-bs4");
   }
 
   @PostMapping("/{id}")
