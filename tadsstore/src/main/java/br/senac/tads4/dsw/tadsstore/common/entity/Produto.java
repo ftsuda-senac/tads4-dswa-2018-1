@@ -28,19 +28,26 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 import java.util.Objects;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
 
 public class Produto implements Serializable {
 
   private Long id;
 
+  @Size(min = 1, max = 50, message = "Nome inválido")
   private String nome;
 
+  @Size(min = 1, max = 200)
   private String descricao;
 
+  @Digits(integer = 6, fraction = 2)
   private BigDecimal precoCompra;
-  
+
+  @Digits(integer = 6, fraction = 2)
   private BigDecimal precoVenda;
-  
+
+  @Digits(integer = 6, fraction = 0)
   private int quantidade;
 
   private Date dtCadastro;

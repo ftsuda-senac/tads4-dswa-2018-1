@@ -9,6 +9,7 @@ import br.senac.tads4.dsw.tadsstore.common.entity.Produto;
 import br.senac.tads4.dsw.tadsstore.common.service.ProdutoService;
 import br.senac.tads4.dsw.tadsstore.common.service.fakeimpl.ProdutoServiceFakeImpl;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,10 +45,15 @@ public class ProdutoController {
   }
   
   @PostMapping("/salvar")
-  public ModelAndView salvar(@ModelAttribute Produto p, 
+  public ModelAndView salvar(@ModelAttribute("prod") @Valid Produto p, 
 	  BindingResult bindingResult,
 	  RedirectAttributes redirectAttributes) {
     
+    if (bindingResult.hasErrors()) {
+      return new ModelAndView("formulario");
+    }
+    
+    // Sucesso
     redirectAttributes.addFlashAttribute("msg", "Produto " + p.getNome() + " cadastrado com sucesso");
     return new ModelAndView("redirect:/form");
   }
