@@ -26,14 +26,27 @@ package br.senac.tads4.dsw.tadsstore.common.entity;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-
+@Entity
+@Table(name = "TB_CATEGORIA")
 public class Categoria implements Serializable {
 
+  @Id
+  @Column(name = "ID_CATEGORIA")
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
+  @Column(name = "NM_CATEGORIA", length = 100, nullable = false)
   private String nome;
 
+  @Transient
   private Set<Produto> produtos;
 
   public Categoria() {

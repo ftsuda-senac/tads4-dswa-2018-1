@@ -24,15 +24,30 @@
 package br.senac.tads4.dsw.tadsstore.common.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
+@Entity
+@Table(name = "TB_IMAGEM")
 public class ImagemProduto implements Serializable {
 
+  @Id
+  @Column(name = "ID_IMAGEM")
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
+  @Column(name = "NM_IMAGEM", length = 255, nullable = false)
   private String nomeArquivo;
 
+  @Column(name = "DS_IMAGEM", length = 1000)
   private String legenda;
 
+  @Transient
   private Produto produto;
 
   public ImagemProduto() {

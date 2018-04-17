@@ -28,36 +28,61 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 
+@Entity
+@Table(name = "TB_PRODUTO")
 public class Produto implements Serializable {
 
+  @Id
+  @Column(name = "ID_PRODUTO")
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Size(min = 1, max = 50, message = "Nome inválido")
+  @Size(min = 1, max = 100, message = "Nome inválido")
+  @Column(name = "NM_PRODUTO", length = 100, nullable = false)
   private String nome;
 
-  @Size(min = 1, max = 200)
+  @Size(min = 1, max = 1000)
+  @Column(name = "DS_PRODUTO", length = 1000)
   private String descricao;
 
   @Digits(integer = 6, fraction = 2)
+  @Column(name = "VL_COMPRA", precision = 6, scale = 2, nullable = false)
   private BigDecimal precoCompra;
 
   @Digits(integer = 6, fraction = 2)
+  @Column(name = "VL_VENDA", precision = 6, scale = 2, nullable = false)
   private BigDecimal precoVenda;
 
   @Digits(integer = 6, fraction = 0)
+  @Column(name = "QT_PRODUTO", precision = 6, nullable = false)
   private int quantidade;
 
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "DT_CADASTRO", nullable = false)
   private Date dtCadastro;
 
+  @Transient
   private Set<Categoria> categorias;
 
+  @Transient
   private Set<ImagemProduto> imagens;
 
+  @Transient
   private Set<Integer> idsCategorias;
 
+  @Transient
   private String observacoes;
 
   public Produto() {

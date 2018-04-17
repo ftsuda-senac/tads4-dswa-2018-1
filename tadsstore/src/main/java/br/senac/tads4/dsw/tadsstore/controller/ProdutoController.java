@@ -8,8 +8,11 @@ package br.senac.tads4.dsw.tadsstore.controller;
 import br.senac.tads4.dsw.tadsstore.common.entity.Produto;
 import br.senac.tads4.dsw.tadsstore.common.service.ProdutoService;
 import br.senac.tads4.dsw.tadsstore.common.service.fakeimpl.ProdutoServiceFakeImpl;
+import br.senac.tads4.dsw.tadsstore.common.service.jpaimpl.ProdutoServiceJpaImpl;
+import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping
 public class ProdutoController {
 
-  private ProdutoService service = new ProdutoServiceFakeImpl();
+  @Autowired
+  private ProdutoService service;
 
   @GetMapping
   public ModelAndView listar() {
@@ -53,6 +57,8 @@ public class ProdutoController {
       return new ModelAndView("formulario");
     }
     
+    p.setDtCadastro(new Date());
+    service.incluir(p);
     // Sucesso
     redirectAttributes.addFlashAttribute("msg", "Produto " + p.getNome() + " cadastrado com sucesso");
     return new ModelAndView("redirect:/form");
