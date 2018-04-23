@@ -5,12 +5,16 @@
  */
 package br.senac.tads4.dsw.tadsstore.controller;
 
+import br.senac.tads4.dsw.tadsstore.common.entity.Categoria;
+import br.senac.tads4.dsw.tadsstore.common.entity.ImagemProduto;
 import br.senac.tads4.dsw.tadsstore.common.entity.Produto;
 import br.senac.tads4.dsw.tadsstore.common.service.ProdutoService;
 import br.senac.tads4.dsw.tadsstore.common.service.fakeimpl.ProdutoServiceFakeImpl;
 import br.senac.tads4.dsw.tadsstore.common.service.jpaimpl.ProdutoServiceJpaImpl;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,6 +62,31 @@ public class ProdutoController {
     }
     
     p.setDtCadastro(new Date());
+    
+    Set<Produto> listaProdutos = new LinkedHashSet<>();
+    listaProdutos.add(p);
+    
+    Categoria c1 = new Categoria("chocolate");
+    c1.setProdutos(listaProdutos);
+    Categoria c2 = new Categoria("light");
+    c2.setProdutos(listaProdutos);
+    Categoria c3 = new Categoria("crocante");
+    c3.setProdutos(listaProdutos);
+    Set<Categoria> listaCategorias = new LinkedHashSet<Categoria>();
+    listaCategorias.add(c1);
+    listaCategorias.add(c2);
+    listaCategorias.add(c3);
+    p.setCategorias(listaCategorias);
+    
+    ImagemProduto img1 = new ImagemProduto("bolo01.jpg", "imagem do bolo 1");
+    img1.setProduto(p);
+    ImagemProduto img2 = new ImagemProduto("bolo02.jpg", "imagem do bolo 2");
+    img2.setProduto(p);
+    Set<ImagemProduto> listaImagens = new LinkedHashSet<ImagemProduto>();
+    listaImagens.add(img1);
+    listaImagens.add(img2);
+    p.setImagens(listaImagens);
+    
     service.incluir(p);
     // Sucesso
     redirectAttributes.addFlashAttribute("msg", "Produto " + p.getNome() + " cadastrado com sucesso");

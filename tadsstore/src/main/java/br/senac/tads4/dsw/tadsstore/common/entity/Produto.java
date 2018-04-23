@@ -33,6 +33,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -73,10 +77,17 @@ public class Produto implements Serializable {
   @Column(name = "DT_CADASTRO", nullable = false)
   private Date dtCadastro;
 
-  @Transient
+  @ManyToMany
+  @JoinTable(name = "TB_PRODUTO_CATEGORIA",
+	  joinColumns = {
+	    @JoinColumn(name= "ID_PRODUTO")
+	  },
+	  inverseJoinColumns = {
+	    @JoinColumn(name = "ID_CATEGORIA")
+	  })
   private Set<Categoria> categorias;
 
-  @Transient
+  @OneToMany(mappedBy = "produto")
   private Set<ImagemProduto> imagens;
 
   @Transient
@@ -202,28 +213,6 @@ public class Produto implements Serializable {
   @Override
   public String toString() {
     return "Produto{" + "id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", precoCompra=" + precoCompra + ", precoVenda=" + precoVenda + ", quantidade=" + quantidade + ", dtCadastro=" + dtCadastro + ", categorias=" + categorias + ", imagens=" + imagens + ", idsCategorias=" + idsCategorias + ", observacoes=" + observacoes + '}';
-  }
-
-  @Override
-  public int hashCode() {
-    int hash = 7;
-    hash = 89 * hash + Objects.hashCode(this.id);
-    return hash;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final Produto other = (Produto) obj;
-    if (!Objects.equals(this.id, other.id)) {
-      return false;
-    }
-    return true;
   }
 
 }

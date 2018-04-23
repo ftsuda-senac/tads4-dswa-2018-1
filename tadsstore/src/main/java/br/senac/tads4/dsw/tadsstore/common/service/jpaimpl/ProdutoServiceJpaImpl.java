@@ -6,11 +6,14 @@
 package br.senac.tads4.dsw.tadsstore.common.service.jpaimpl;
 
 import br.senac.tads4.dsw.tadsstore.common.entity.Categoria;
+import br.senac.tads4.dsw.tadsstore.common.entity.ImagemProduto;
 import br.senac.tads4.dsw.tadsstore.common.entity.Produto;
 import br.senac.tads4.dsw.tadsstore.common.service.ProdutoService;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
@@ -26,7 +29,9 @@ public class ProdutoServiceJpaImpl implements ProdutoService {
 
   @Override
   public List<Produto> listar(int offset, int quantidade) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    Query query = entityManager.createQuery("SELECT p FROM Produto p");
+    List<Produto> resultados = query.getResultList();
+    return resultados;
   }
 
   @Override
@@ -36,12 +41,30 @@ public class ProdutoServiceJpaImpl implements ProdutoService {
 
   @Override
   public Produto obter(long idProduto) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    Query query = entityManager.createQuery(
+	    "SELECT p FROM Produto p WHERE p.id = :idProd");
+    query.setParameter("idProd", idProduto);
+    Produto p = (Produto) query.getSingleResult();
+    return p;
   }
 
   @Override
   @Transactional
   public void incluir(Produto p) {
+    for (Categoria c : p.getCategorias()) {
+      if (c.getId() == null) {
+	entityManager.persist(c);
+      } else {
+	entityManager.merge(c);
+      }
+    }
+    for (ImagemProduto img : p.getImagens()) {
+      if (img.getId() == null) {
+	entityManager.persist(img);
+      } else {
+	entityManager.merge(img);
+      }
+    }
     entityManager.persist(p);
   }
 

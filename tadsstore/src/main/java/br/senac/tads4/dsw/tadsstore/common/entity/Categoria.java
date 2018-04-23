@@ -31,6 +31,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -43,10 +44,10 @@ public class Categoria implements Serializable {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
-  @Column(name = "NM_CATEGORIA", length = 100, nullable = false)
+  @Column(name = "NM_CATEGORIA", length = 100, nullable = false, unique = true)
   private String nome;
 
-  @Transient
+  @ManyToMany(mappedBy = "categorias")
   private Set<Produto> produtos;
 
   public Categoria() {
@@ -55,6 +56,10 @@ public class Categoria implements Serializable {
 
   public Categoria(Integer id, String nome) {
     this.id = id;
+    this.nome = nome;
+  }
+  
+  public Categoria(String nome) {
     this.nome = nome;
   }
 
@@ -87,25 +92,4 @@ public class Categoria implements Serializable {
     return "Categoria{" + "id=" + id + ", nome=" + nome + '}';
   }
 
-  @Override
-  public int hashCode() {
-    int hash = 3;
-    hash = 47 * hash + Objects.hashCode(this.id);
-    return hash;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final Categoria other = (Categoria) obj;
-    if (!Objects.equals(this.id, other.id)) {
-      return false;
-    }
-    return true;
-  }
 }
