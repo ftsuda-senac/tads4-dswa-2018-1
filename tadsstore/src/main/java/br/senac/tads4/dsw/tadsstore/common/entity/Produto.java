@@ -50,7 +50,7 @@ public class Produto implements Serializable {
 
   @Id
   @Column(name = "ID_PRODUTO")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Size(min = 1, max = 100, message = "Nome inválido")
@@ -80,7 +80,7 @@ public class Produto implements Serializable {
   @ManyToMany
   @JoinTable(name = "TB_PRODUTO_CATEGORIA",
 	  joinColumns = {
-	    @JoinColumn(name= "ID_PRODUTO")
+	    @JoinColumn(name = "ID_PRODUTO")
 	  },
 	  inverseJoinColumns = {
 	    @JoinColumn(name = "ID_CATEGORIA")
