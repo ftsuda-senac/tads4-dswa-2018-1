@@ -93,6 +93,7 @@
         <div class="row">
           <div class="col-12">
             <form class="form" th:action="@{/salvar}" th:object="${prod}" method="post">
+              <input type="hidden" th:if="${prod.id != null}" th:field="*{id}" />
               <div>
                 <label>Nome</label>
                 <input type="text" class="form-control" name="xpto1" th:field="*{nome}" />
@@ -117,6 +118,13 @@
                 <label>Quantidade</label>
                 <input type="text" class="form-control" name="xpto5" th:field="*{quantidade}" />
                 <p th:if="${#fields.hasErrors('quantidade')}" th:errors="*{quantidade}"></p>
+              </div>
+              
+              <div>
+                <span th:each="cat : ${categorias}">
+                  <input type="checkbox" th:field="*{idsCategorias}" th:value="${cat.id}" /><label th:text="${cat.nome}"></label>
+                </span>
+                
               </div>
               <button class="btn btn-success btn-block">Salvar</button>
 

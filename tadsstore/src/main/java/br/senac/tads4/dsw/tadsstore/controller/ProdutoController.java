@@ -8,6 +8,7 @@ package br.senac.tads4.dsw.tadsstore.controller;
 import br.senac.tads4.dsw.tadsstore.common.entity.Categoria;
 import br.senac.tads4.dsw.tadsstore.common.entity.ImagemProduto;
 import br.senac.tads4.dsw.tadsstore.common.entity.Produto;
+import br.senac.tads4.dsw.tadsstore.common.service.CategoriaService;
 import br.senac.tads4.dsw.tadsstore.common.service.ProdutoService;
 import br.senac.tads4.dsw.tadsstore.common.service.fakeimpl.ProdutoServiceFakeImpl;
 import br.senac.tads4.dsw.tadsstore.common.service.jpaimpl.ProdutoServiceJpaImpl;
@@ -35,6 +36,9 @@ public class ProdutoController {
   @Autowired
   private ProdutoService service;
 
+  @Autowired
+  private CategoriaService categoriaService;
+
   @GetMapping
   public ModelAndView listar() {
     List<Produto> lista = service.listar(0, 100);
@@ -61,7 +65,25 @@ public class ProdutoController {
   @GetMapping("/form")
   public ModelAndView mostrarForm() {
     Produto p = new Produto();
-    return new ModelAndView("formulario").addObject("prod", p);
+    List<Categoria> categorias = categoriaService.listar();
+    return new ModelAndView("formulario")
+	    .addObject("prod", p)
+	    .addObject("categorias", categorias);
+  }
+
+  @GetMapping("/form/{id}")
+  public ModelAndView mostrarFormAlteracao(@PathVariable("id") Long id) {
+    Produto p = service.obter(id);
+    Set<Integer> idsCategorias = new LinkedHashSet<>();
+    for (Categoria c : p.getCategorias()) {
+      idsCategorias.add(c.getId());
+    }
+    p.setIdsCategorias(idsCategorias);
+
+    List<Categoria> categorias = categoriaService.listar();
+    return new ModelAndView("formulario")
+	    .addObject("prod", p)
+	    .addObject("categorias", categorias);
   }
 
   @PostMapping("/salvar")
@@ -78,16 +100,12 @@ public class ProdutoController {
     Set<Produto> listaProdutos = new LinkedHashSet<>();
     listaProdutos.add(p);
 
-    Categoria c1 = new Categoria("chocolate");
-    c1.setProdutos(listaProdutos);
-    Categoria c2 = new Categoria("light");
-    c2.setProdutos(listaProdutos);
-    Categoria c3 = new Categoria("crocante");
-    c3.setProdutos(listaProdutos);
     Set<Categoria> listaCategorias = new LinkedHashSet<Categoria>();
-    listaCategorias.add(c1);
-    listaCategorias.add(c2);
-    listaCategorias.add(c3);
+    for (Integer idCat : p.getIdsCategorias()) {
+      Categoria cat = categoriaService.obter(idCat);
+      cat.setProdutos(listaProdutos);
+      listaCategorias.add(cat);
+    }
     p.setCategorias(listaCategorias);
 
     ImagemProduto img1 = new ImagemProduto("bolo01.jpg", "imagem do bolo 1");
@@ -99,9 +117,23 @@ public class ProdutoController {
     listaImagens.add(img2);
     p.setImagens(listaImagens);
 
-    service.incluir(p);
+    if (p.getId() == null) {
+      service.incluir(p);
+    } else {
+      service.alterar(p);
+    }
+
     // Sucesso
     redirectAttributes.addFlashAttribute("msg", "Produto " + p.getNome() + " cadastrado com sucesso");
+    return new ModelAndView("redirect:/form");
+  }
+
+  @GetMapping("/apagar/{id}")
+  public ModelAndView apagarProduto(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    service.remover(id);
+
+    // Sucesso
+    redirectAttributes.addFlashAttribute("msg", "Produto apagado com sucesso");
     return new ModelAndView("redirect:/form");
   }
 

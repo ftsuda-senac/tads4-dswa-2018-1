@@ -85,13 +85,30 @@ public class ProdutoServiceJpaImpl implements ProdutoService {
   }
 
   @Override
+  @Transactional
   public void alterar(Produto p) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    for (Categoria c : p.getCategorias()) {
+      if (c.getId() == null) {
+	entityManager.persist(c);
+      } else {
+	entityManager.merge(c);
+      }
+    }
+    for (ImagemProduto img : p.getImagens()) {
+      if (img.getId() == null) {
+	entityManager.persist(img);
+      } else {
+	entityManager.merge(img);
+      }
+    }
+    entityManager.merge(p);
   }
 
   @Override
+  @Transactional
   public void remover(long idProduto) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    Produto p = entityManager.find(Produto.class, idProduto);
+    entityManager.remove(p);
   }
 
 }
