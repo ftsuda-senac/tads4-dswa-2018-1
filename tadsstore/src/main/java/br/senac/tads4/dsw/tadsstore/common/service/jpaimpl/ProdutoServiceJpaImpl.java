@@ -32,7 +32,9 @@ public class ProdutoServiceJpaImpl implements ProdutoService {
     Query query = entityManager.createQuery(
 	    "SELECT DISTINCT p FROM Produto p "
 	    + "LEFT JOIN FETCH p.categorias "
-	    + "LEFT JOIN FETCH p.imagens");
+	    + "LEFT JOIN FETCH p.imagens")
+	    .setFirstResult(offset)
+	    .setMaxResults(quantidade);
     List<Produto> resultados = query.getResultList();
     return resultados;
   }

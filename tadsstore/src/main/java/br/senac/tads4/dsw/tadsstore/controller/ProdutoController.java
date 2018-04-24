@@ -40,8 +40,9 @@ public class ProdutoController {
   private CategoriaService categoriaService;
 
   @GetMapping
-  public ModelAndView listar() {
-    List<Produto> lista = service.listar(0, 100);
+  public ModelAndView listar(@RequestParam(value = "pag", defaultValue = "0") int pagina,
+	  @RequestParam(value = "qt", defaultValue = "6") int quantidade) {
+    List<Produto> lista = service.listar(pagina, quantidade);
     return new ModelAndView("lista-bs4").addObject("resultado", lista);
   }
 
