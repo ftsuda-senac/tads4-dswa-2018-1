@@ -29,7 +29,10 @@ public class ProdutoServiceJpaImpl implements ProdutoService {
 
   @Override
   public List<Produto> listar(int offset, int quantidade) {
-    Query query = entityManager.createQuery("SELECT p FROM Produto p");
+    Query query = entityManager.createQuery(
+	    "SELECT DISTINCT p FROM Produto p "
+		    + "LEFT JOIN FETCH p.categorias "
+		    + "LEFT JOIN FETCH p.imagens ");
     List<Produto> resultados = query.getResultList();
     return resultados;
   }
@@ -42,7 +45,10 @@ public class ProdutoServiceJpaImpl implements ProdutoService {
   @Override
   public Produto obter(long idProduto) {
     Query query = entityManager.createQuery(
-	    "SELECT p FROM Produto p WHERE p.id = :idProd");
+	    "SELECT p FROM Produto p "
+		    + "LEFT JOIN FETCH p.categorias "
+		    + "LEFT JOIN FETCH p.imagens "
+		    + "WHERE p.id = :idProd");
     query.setParameter("idProd", idProduto);
     Produto p = (Produto) query.getSingleResult();
     return p;

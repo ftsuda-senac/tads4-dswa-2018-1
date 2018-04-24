@@ -85,7 +85,7 @@
         <div class="row">
           <div class="col-12 col-sm-3" th:each="p :${resultado}">
             <div class="card">
-              <img class="card-img-top" src="bolo01.jpg" th:src="@{/img/bolo01.jpg}" />
+              <img class="card-img-top" src="bolo01.jpg" th:src="@{__${p.imagens[0].urlArquivo}__}" />
               <div class="card-body">
                 <h3 class="card-title titulo-altura-fixa" th:text="${p.nome}">Card title</h3>
                 <p class="card-text descricao-altura-fixa" th:text="${p.descricao}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>

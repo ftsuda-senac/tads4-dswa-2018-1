@@ -102,7 +102,7 @@ public class ImagemProduto implements Serializable {
   }
 
   public String getUrlArquivo() {
-    return "http://localhost:8080/imagens/" + nomeArquivo;
+    return "/img/" + nomeArquivo;
   }
 
   @Override
