@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -40,32 +41,43 @@ public class ProdutoController {
     return new ModelAndView("lista-bs4").addObject("resultado", lista);
   }
 
+  @GetMapping("/cat/{categoria}")
+  public ModelAndView listarPorCategoria(
+	  @PathVariable("categoria") String categoria,
+	  @RequestParam(value = "pag", defaultValue = "0") int pagina,
+	  @RequestParam(value = "qt", defaultValue = "6") int quantidade) {
+
+    List<Produto> lista
+	    = service.listarPorCategoria(new Categoria(categoria), pagina, quantidade);
+    return new ModelAndView("lista-bs4").addObject("resultado", lista);
+  }
+
   @GetMapping("/{id}")
   public ModelAndView mostrarDetalhe(@PathVariable("id") Long id) {
     Produto p = service.obter(id);
     return new ModelAndView("detalhe-bs4").addObject("prod", p);
   }
- 
+
   @GetMapping("/form")
   public ModelAndView mostrarForm() {
     Produto p = new Produto();
     return new ModelAndView("formulario").addObject("prod", p);
   }
-  
+
   @PostMapping("/salvar")
-  public ModelAndView salvar(@ModelAttribute("prod") @Valid Produto p, 
+  public ModelAndView salvar(@ModelAttribute("prod") @Valid Produto p,
 	  BindingResult bindingResult,
 	  RedirectAttributes redirectAttributes) {
-    
+
     if (bindingResult.hasErrors()) {
       return new ModelAndView("formulario");
     }
-    
+
     p.setDtCadastro(new Date());
-    
+
     Set<Produto> listaProdutos = new LinkedHashSet<>();
     listaProdutos.add(p);
-    
+
     Categoria c1 = new Categoria("chocolate");
     c1.setProdutos(listaProdutos);
     Categoria c2 = new Categoria("light");
@@ -77,7 +89,7 @@ public class ProdutoController {
     listaCategorias.add(c2);
     listaCategorias.add(c3);
     p.setCategorias(listaCategorias);
-    
+
     ImagemProduto img1 = new ImagemProduto("bolo01.jpg", "imagem do bolo 1");
     img1.setProduto(p);
     ImagemProduto img2 = new ImagemProduto("bolo02.jpg", "imagem do bolo 2");
@@ -86,7 +98,7 @@ public class ProdutoController {
     listaImagens.add(img1);
     listaImagens.add(img2);
     p.setImagens(listaImagens);
-    
+
     service.incluir(p);
     // Sucesso
     redirectAttributes.addFlashAttribute("msg", "Produto " + p.getNome() + " cadastrado com sucesso");

@@ -31,24 +31,34 @@ public class ProdutoServiceJpaImpl implements ProdutoService {
   public List<Produto> listar(int offset, int quantidade) {
     Query query = entityManager.createQuery(
 	    "SELECT DISTINCT p FROM Produto p "
-		    + "LEFT JOIN FETCH p.categorias "
-		    + "LEFT JOIN FETCH p.imagens ");
+	    + "LEFT JOIN FETCH p.categorias "
+	    + "LEFT JOIN FETCH p.imagens");
     List<Produto> resultados = query.getResultList();
     return resultados;
   }
 
   @Override
   public List<Produto> listarPorCategoria(Categoria categoria, int offset, int quantidade) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    Query query = entityManager.createQuery(
+	    "SELECT DISTINCT p FROM Produto p "
+	    + "LEFT JOIN FETCH p.categorias "
+	    + "LEFT JOIN FETCH p.imagens "
+	    + "INNER JOIN p.categorias c "
+	    + "WHERE c.nome LIKE :nmCat")
+	    .setParameter("nmCat", categoria.getNome())
+	    .setFirstResult(offset)
+	    .setMaxResults(quantidade);
+    List<Produto> resultados = query.getResultList();
+    return resultados;
   }
 
   @Override
   public Produto obter(long idProduto) {
     Query query = entityManager.createQuery(
 	    "SELECT p FROM Produto p "
-		    + "LEFT JOIN FETCH p.categorias "
-		    + "LEFT JOIN FETCH p.imagens "
-		    + "WHERE p.id = :idProd");
+	    + "LEFT JOIN FETCH p.categorias "
+	    + "LEFT JOIN FETCH p.imagens "
+	    + "WHERE p.id = :idProd");
     query.setParameter("idProd", idProduto);
     Produto p = (Produto) query.getSingleResult();
     return p;
