@@ -5,6 +5,7 @@
  */
 package br.senac.tads4.dsw.tadsstore.common.service;
 
+import br.senac.tads4.dsw.tadsstore.SecurityConfig;
 import br.senac.tads4.dsw.tadsstore.common.entity.PapelSistema;
 import br.senac.tads4.dsw.tadsstore.common.entity.UsuarioSistema;
 import java.util.Arrays;
@@ -26,10 +27,10 @@ public class UsuarioService implements UserDetailsService {
 
   static {
     USUARIOS.put("fulano", new UsuarioSistema("fulano",
-	    "Fulano da Silva", "abcd1234",
+	    "Fulano da Silva", SecurityConfig.bCryptPasswordEncoder().encode("abcd1234"),
 	    Arrays.asList(new PapelSistema("ROLE_NORMAL"))));
     USUARIOS.put("ciclano", new UsuarioSistema("ciclano", 
-	    "Ciclano de Souza", "abcd1234", 
+	    "Ciclano de Souza", SecurityConfig.bCryptPasswordEncoder().encode("abcd1234"), 
 	    Arrays.asList(new PapelSistema("ROLE_ADMIN"))));
   }
 

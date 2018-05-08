@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -75,49 +74,30 @@
     <main role="main">
 
       <div class="container">
-        <div class="row" th:if="${#request.userPrincipal}">
-          <div class="col-12">
-            <p th:text="${#request.userPrincipal.principal.nomeCompleto}"></p>
-            <p th:text="${#request.userPrincipal.principal.hashSenha}"></p>
-            <p th:text="${#request.userPrincipal.principal.authorities}"></p>
-          </div>
-          <div class="col-12" th:if="${#request.isUserInRole('ROLE_ADMIN')}">
-            <a th:href="@{/gerenciamento/produto}">Gerenciar produto</a>
-            
-          </div>
-        </div>
-        
         <!-- Example row of columns -->
         <div class="row">
           <div class="col-12">
-            <h2>Listagem</h2>
+            <h2>Login</h2>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-12 col-sm-3" th:each="p :${resultado}">
-            <div class="card">
-              <img class="card-img-top" src="bolo01.jpg" th:src="@{__${p.imagens[0].urlArquivo}__}" />
-              <div class="card-body">
-                <h3 class="card-title titulo-altura-fixa" th:text="${p.nome}">Card title</h3>
-                <p class="card-text descricao-altura-fixa" th:text="${p.descricao}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item" th:text="${p.precoCompra}">99.00</li>
-                  <li class="list-group-item" th:text="${p.precoVenda}">99.00</li>
-                </ul>
+          <div class="col-12">
+            <form class="form" th:action="@{/login}" method="post">
+              <div>
+                <label>Username</label>
+                <input type="text" class="form-control" name="username"/>
               </div>
-              <div class="card-footer">
-                <a class="btn btn-primary btn-lg btn-block" href="#" th:href="@{/{id}(id=${p.id})}" role="button">Detalhes &raquo;</a>
-                <form action="" th:action="@{/carrinho/{id}(id=${p.id})}" method="post">
-                  <button class="btn btn-success btn-lg btn-block">Comprar</button>
-                </form>
+              <div>
+                <label>Senha</label>
+                <input type="password" class="form-control" name="senha"/>
               </div>
-            </div>
+              <button class="btn btn-success btn-block">Entrar</button>
+
+            </form>
           </div>
         </div>
-      </div>
 
-      <hr>
 
       </div>
       <!-- /container -->
@@ -127,6 +107,7 @@
     <footer class="container">
       <p>&copy; 2018 - Senac TADS - DSW</p>
     </footer>
+
   </body>
 
 </html>

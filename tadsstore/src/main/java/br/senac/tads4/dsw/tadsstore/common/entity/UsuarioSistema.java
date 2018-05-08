@@ -18,17 +18,17 @@ public class UsuarioSistema implements UserDetails {
 
   private String nomeCompleto;
 
-  private String senha;
+  private String hashSenha;
 
   private List<PapelSistema> papeis;
 
   public UsuarioSistema() {
   }
 
-  public UsuarioSistema(String username, String nomeCompleto, String senha, List<PapelSistema> papeis) {
+  public UsuarioSistema(String username, String nomeCompleto, String hashSenha, List<PapelSistema> papeis) {
     this.username = username;
     this.nomeCompleto = nomeCompleto;
-    this.senha = senha;
+    this.hashSenha = hashSenha;
     this.papeis = papeis;
   }
 
@@ -41,12 +41,12 @@ public class UsuarioSistema implements UserDetails {
     this.username = username;
   }
 
-  public String getSenha() {
-    return senha;
+  public String getHashSenha() {
+    return hashSenha;
   }
 
-  public void setSenha(String senha) {
-    this.senha = senha;
+  public void setHashSenha(String hashSenha) {
+    this.hashSenha = hashSenha;
   }
 
   public String getNomeCompleto() {
@@ -70,10 +70,19 @@ public class UsuarioSistema implements UserDetails {
   public List<PapelSistema> getAuthorities() {
     return papeis;
   }
+  
+  public boolean hasRole(String role) {
+    for (PapelSistema papel : papeis) {
+      if (papel.getAuthority().equals(role)) {
+	return true;
+      }
+    }
+    return false;
+  }
 
   @Override
   public String getPassword() {
-    return senha;
+    return hashSenha;
   }
 
   @Override
