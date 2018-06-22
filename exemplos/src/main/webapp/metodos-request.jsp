@@ -29,7 +29,7 @@
 	  <tr>
 	    <th>&nbsp;</th>
 	    <th>Método Servlet</th>
-	    <th>EL</th>
+	    <th>EL no JSP</th>
 	    <th>Valor</th>
 	  </tr>
 	</thead>
@@ -81,6 +81,12 @@
 	  <td><code>request.getQueryString()</code></td>
 	  <td><code>${'${pageContext.request.queryString}'}</code></td>
 	  <td class="query-string">${pageContext.request.queryString}</td>
+	</tr>
+	<tr>
+	  <th>request URI</th>
+	  <td><code>request.getRequestURI()</code></td>
+	  <td><code>${'${pageContext.request.requestURI}'}</code></td>
+	  <td class="query-string">${pageContext.request.requestURI}</td>
 	</tr>
       </tbody>
     </table>
