@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <h1>Upload de arquivos</h1>
+    <div th:if="${msg != null}" style="background-color: grey">
+      <h2 th:text="${msg}"></h2>
+    </div>
+    <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+      <div>
+        <label>Carregar arquivo</label>
+        <input type="file" name="imagem" accept="image/*" />
+      </div>
+      <button>Enviar</button>
+    </form>
+  </body>
+</html>

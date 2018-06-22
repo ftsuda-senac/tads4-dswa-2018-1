@@ -1,0 +1,17 @@
+<div layout:decorate="~{modelo}" layout:fragment="conteudo">
+  <table>
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th>Preço</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="prod : ${@carrinhoController.produtosAdicionados}">
+        <td th:text="${prod.nome}">Produto 1</td>
+        <td th:text="${prod.precoVenda}">R$ 100,00</td>
+      </tr>
+    </tbody>
+  </table>
+  
+</div>

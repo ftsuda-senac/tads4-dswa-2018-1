@@ -1,0 +1,10 @@
+<div layout:decorate="~{modelo}" layout:fragment="conteudo">
+  <div th:each="prod : ${resultado}">
+    <img src="imagem.jpg" th:src="@{imagem.jpg}" />
+    <h2 th:text="${prod.nome}">Nome do produto</h2>
+    <a href="detalhe.html" th:href="@{/{id}(id=${prod.id})}">Ver detalhes</a>
+    <form action="" th:action="@{/carrinho/{id}(id=${prod.id})}" method="post">
+      <button>Comprar</button>
+    </form>
+  </div>
+</div>

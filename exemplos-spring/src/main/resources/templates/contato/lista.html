@@ -1,0 +1,16 @@
+<div layout:decorate="~{modelo/modelo}" layout:fragment="conteudo"> 
+  <h1>Lista de contatos</h1>
+  <ul th:each="c : ${lista}">
+    <li>
+      <h2>Nome: <span th:text="${c.nome}">Teste</span></h2>
+      <p>ID: <span th:text="${c.id}"></span></p>
+      <p>E-mail: <span th:text="${c.email}">email@email.com</span></p>
+      <p>Sexo: <span th:switch="${c.sexo}">
+          <span th:case="1">Masculino</span>
+          <span th:case="*">Feminino</span>
+        </span></p>
+      <p th:if="${c.idade < 18}">*** Menor de 18 anos ***</p>
+    </li>
+  </ul>
+</div>
+
